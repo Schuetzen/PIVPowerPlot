@@ -1,4 +1,5 @@
-im = imread('Calibration_water_seep.bmp')
+rootDir = 'G:/PIV_compare/Bubble_in_chain/12012023_Pylon_RaspPi_Cam/';
+im = imread('G:/PIV_compare/Bubble_in_chain/12012023_Pylon_RaspPi_Cam/Calibration.bmp');
 imshow(im)
 [x, y] = ginput(2); % Graphical input from the user
 pixelDistance = sqrt((x(2) - x(1))^2 + (y(2) - y(1))^2);
@@ -10,4 +11,4 @@ res = realWorldDistance / pixelDistance;
 fprintf('Each pixel represents %f real-world units\n', res);
 
 % Saving the pixel length to a file named 'resolution.mat'
-save('resolution.mat', 'res');
+save(fullfile(rootDir,'resolution.mat'), 'res');

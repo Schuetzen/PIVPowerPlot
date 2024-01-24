@@ -10,14 +10,14 @@ load resolution; % Ensure 'resolution' file exists with 'RpiPIV_res'
 %res = ; % Resolution: meters per pixel
 %threshold = 40000; % Particle detection threshold
 %minBubbleSize = 3000; % Minimum size of bubbles
-mm = 1000; % Image dimension
-nn = 1600; % Image dimension
+%mm = 1000; % Image dimension
+%nn = 1600; % Image dimension
 dt = 3e-3; % Time step: 3 ms
 grid_pixel_size = 20; % Size of grid in pixels
 
 % Define the directory where the folders are located
-rootDir = ''; % Replace with your directory path
-folders = dir(fullfile(rootDir, '2024-01-08_*')); % Adjust the pattern as needed
+rootDir = 'G:/PIV_compare/Bubble_in_chain/12012023_Pylon_RaspPi_Cam/'; % Replace with your directory path
+folders = dir(fullfile(rootDir, '2023*')); % Adjust the pattern as needed
 
 % Check folders
 if isempty(folders)
@@ -25,11 +25,35 @@ if isempty(folders)
     return;
 end
 
+% Specify the folder name
+folderName = 'data';
+
+% Check if the folder exists
+if ~exist(folderName, 'dir')
+    % Folder does not exist, so create it
+    mkdir(folderName);
+    disp(['Folder "', folderName, '" was created.']);
+else
+    % Folder already exists
+    disp(['Folder "', folderName, '" already exists.']);
+end
 
 % Iterate over each folder
 for folderIdx = 1:length(folders)
     folderName = folders(folderIdx).name;
     folderPath = fullfile(rootDir, folderName);
+
+     % Find the first image file in the folder
+     imageFiles = dir(fullfile(folderPath, '*.tif')); % Adjust file extension if necessary
+     if isempty(imageFiles)
+         disp(['No image files found in ', folderName]);
+         continue;
+     end
+     firstImageFile = fullfile(folderPath, imageFiles(1).name);
+ 
+     % Read the dimensions of the first image
+     firstImage = imread(firstImageFile);
+     [mm, nn] = size(firstImage);
     
     % Count the number of pictures
     files = dir(folderPath);
@@ -38,8 +62,9 @@ for folderIdx = 1:length(folders)
     numTiff = numFiles - 10;
 
     % Initialize variables for each folder
+    % width & height
     %[xi, yi] = meshgrid(340:grid_pixel_size:1600, 200:grid_pixel_size:100);
-    [xi, yi] = meshgrid(300:grid_pixel_size:nn-400,240:grid_pixel_size:800);
+    [xi, yi] = meshgrid(200:grid_pixel_size:nn-400,200:grid_pixel_size:mm-300);
 
     [m, n] = size(xi);
     ue = zeros(m, n);  
