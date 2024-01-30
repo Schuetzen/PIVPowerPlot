@@ -1,5 +1,5 @@
-rootDir = 'G:/PIV_compare/Bubble_in_chain/12012023_Pylon_RaspPi_Cam/';
-im = imread('G:/PIV_compare/Bubble_in_chain/12012023_Pylon_RaspPi_Cam/Calibration.bmp');
+rootDir = 'G:/PIV_compare/Bubble_in_chain/12122023_Pylon_RaspPi_Cam/';
+im = imread('G:/PIV_compare/Bubble_in_chain/12122023_Pylon_RaspPi_Cam/Calibration.bmp');
 imshow(im)
 [x, y] = ginput(2); % Graphical input from the user
 pixelDistance = sqrt((x(2) - x(1))^2 + (y(2) - y(1))^2);

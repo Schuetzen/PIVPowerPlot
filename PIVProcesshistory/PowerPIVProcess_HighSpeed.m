@@ -4,7 +4,6 @@ close all;
 clc;
 
 % Load resolution parameters
-load resolution; % Ensure 'resolution' file exists with 'RpiPIV_res'
 
 % Set parameters
 %res = ; % Resolution: meters per pixel
@@ -12,12 +11,15 @@ load resolution; % Ensure 'resolution' file exists with 'RpiPIV_res'
 %minBubbleSize = 3000; % Minimum size of bubbles
 %mm = 1000; % Image dimension
 %nn = 1600; % Image dimension
-dt = 2e-3; % Time step: 3 ms
+dt = 5e-3; % Time step: 3 ms
 grid_pixel_size = 20; % Size of grid in pixels
 
 % Define the directory where the folders are located
 rootDir = 'G:/PIV_compare/Bubble_in_chain/12012023_Phantom_High_Speed_Cam/'; % Replace with your directory path
-folders = dir(fullfile(rootDir, 'BubbleTest*')); % Adjust the pattern as needed
+folders = dir(fullfile(rootDir, 'Test*')); % Adjust the pattern as needed
+
+resolutionPath = fullfile(rootDir, 'resolution.mat');
+load(resolutionPath); % Ensure 'resolution' file exists with 'RpiPIV_res'
 
 % Check folders
 if isempty(folders)
